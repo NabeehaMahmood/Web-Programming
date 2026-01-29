@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - The Classic Canvas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-wrapper">
+            <div class="nav-brand">
+                <img src="images/logo.png" alt="The Classic Canvas" class="brand-logo">
+                <span class="brand-text">The Classic Canvas</span>
+            </div>
+            
+            <div class="nav-menu-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Gallery</a></li>
+                <li><a href="login.html" class="nav-link">Sign In</a></li>
+                <li><a href="signup.html" class="nav-link">Create Account</a></li>
+                <li><a href="feedback.html" class="nav-link active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contact Section -->
+    <section class="contact-page">
+        <div class="contact-header">
+            <h1>Get In Touch</h1>
+            <p>We'd love to hear from you. Send us your message and we'll respond as soon as possible.</p>
+        </div>
+
+        <div class="contact-wrapper">
+            <div class="contact-form-wrapper">
+                <form class="form" id="feedbackForm">
+                    <div class="form-field">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="John Doe">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="you@example.com">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="exhibition">Exhibition Request</option>
+                            <option value="partnership">Partnership Opportunity</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="support">Support</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="7" required placeholder="Tell us what's on your mind..."></textarea>
+                    </div>
+
+                    <div class="form-field">
+                        <label>How would you rate your experience?</label>
+                        <div class="rating">
+                            <input type="radio" id="star5" name="rating" value="5">
+                            <label for="star5" class="star">★</label>
+                            
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4" class="star">★</label>
+                            
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3" class="star">★</label>
+                            
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2" class="star">★</label>
+                            
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1" class="star">★</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                </form>
+
+                <div id="successMessage" class="success-notification" style="display: none;">
+                    <div class="notification-content">
+                        <h3>✓ Thank You!</h3>
+                        <p>Your message has been received. We'll get back to you soon.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <h2>Contact Information</h2>
+                
+                <div class="info-card">
+                    <div class="info-icon">📍</div>
+                    <h3>Address</h3>
+                    <p>123 Art Gallery Street<br>New York, NY 10001<br>United States</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">📞</div>
+                    <h3>Phone</h3>
+                    <p><a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">📧</div>
+                    <h3>Email</h3>
+                    <p><a href="mailto:hello@classiccanvas.com">hello@classiccanvas.com</a></p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">🕐</div>
+                    <h3>Hours</h3>
+                    <p>Monday - Friday: 10 AM - 6 PM<br>Saturday: 11 AM - 5 PM<br>Sunday: Closed</p>
+                </div>
+
+                <div class="social-media">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">f</a>
+                        <a href="#" class="social-icon">𝕏</a>
+                        <a href="#" class="social-icon">📷</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-wrapper">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="index.html">Gallery</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="feedback.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Sign In</a></li>
+                        <li><a href="signup.html">Create Account</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Classic Canvas. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            document.querySelector('.form').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            setTimeout(() => {
+                document.querySelector('.form').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+                this.reset();
+            }, 4000);
+        });
+    </script>
+</body>
+</html>

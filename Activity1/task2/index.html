@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Classic Canvas - Fine Art Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-wrapper">
+            <div class="nav-brand">
+                <img src="images/logo.png" alt="The Classic Canvas" class="brand-logo">
+                <span class="brand-text">The Classic Canvas</span>
+            </div>
+            
+            <div class="nav-menu-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link active">Gallery</a></li>
+                <li><a href="login.html" class="nav-link">Sign In</a></li>
+                <li><a href="signup.html" class="nav-link">Create Account</a></li>
+                <li><a href="feedback.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">The Classic Canvas</h1>
+                <p class="hero-subtitle">Curated Collection of Masterpieces</p>
+                <p class="hero-description">Discover timeless artistry and contemporary brilliance</p>
+                <button class="hero-btn" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior: 'smooth'})">
+                    Explore Collection
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <img src="images/1.jpg" alt="Featured artwork">
+                </div>
+                <div class="floating-card card-2">
+                    <img src="images/2.jpg" alt="Featured artwork">
+                </div>
+                <div class="floating-card card-3">
+                    <img src="images/3.jpg" alt="Featured artwork">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="section-header">
+            <h2 class="section-title">Our Collection</h2>
+            <p class="section-subtitle">Handpicked masterpieces from visionary artists</p>
+        </div>
+
+        <div class="gallery-container">
+            <div class="gallery-item" data-aos="fade-up">
+                <div class="gallery-image">
+                    <img src="images/1.jpg" alt="The Elegance">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <h3>The Elegance</h3>
+                            <p>A timeless expression of grace</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-info">
+                    <h3>The Elegance</h3>
+                    <p>Oil on Canvas | 2023</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-aos="fade-up">
+                <div class="gallery-image">
+                    <img src="images/2.jpg" alt="Morning Light">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <h3>Morning Light</h3>
+                            <p>Where dawn meets inspiration</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-info">
+                    <h3>Morning Light</h3>
+                    <p>Acrylic on Canvas | 2022</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-aos="fade-up">
+                <div class="gallery-image">
+                    <img src="images/3.jpg" alt="Serenity">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <h3>Serenity</h3>
+                            <p>Peace in every brushstroke</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-info">
+                    <h3>Serenity</h3>
+                    <p>Mixed Media | 2023</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-aos="fade-up">
+                <div class="gallery-image">
+                    <img src="images/4.jpg" alt="Harmony">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <h3>Harmony</h3>
+                            <p>Balance in composition</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-info">
+                    <h3>Harmony</h3>
+                    <p>Watercolor | 2022</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-aos="fade-up">
+                <div class="gallery-image">
+                    <img src="images/5.jpg" alt="Twilight Dreams">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <h3>Twilight Dreams</h3>
+                            <p>Where reality fades</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-info">
+                    <h3>Twilight Dreams</h3>
+                    <p>Digital Art | 2023</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-aos="fade-up">
+                <div class="gallery-image">
+                    <img src="images/6.jpg" alt="Eternal Beauty">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <h3>Eternal Beauty</h3>
+                            <p>Timeless elegance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-info">
+                    <h3>Eternal Beauty</h3>
+                    <p>Oil on Canvas | 2023</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="about-wrapper">
+            <div class="about-content">
+                <h2 class="section-title">About The Classic Canvas</h2>
+                <p class="about-text">We are dedicated to bringing exceptional artistry to art enthusiasts, collectors, and connoisseurs worldwide. Our gallery showcases works from both emerging and established artists, carefully curated to represent the finest in contemporary and classical art.</p>
+                <p class="about-text">Each piece in our collection tells a unique story, capturing moments of beauty, emotion, and creative vision. We believe in the transformative power of art and its ability to inspire meaningful conversations.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <h3>500+</h3>
+                        <p>Artworks</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>200+</h3>
+                        <p>Artists</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>10K+</h3>
+                        <p>Collectors</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-visual">
+                <div class="about-image-wrapper">
+                    <img src="images/1.jpg" alt="About us" class="about-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Join Our Community</h2>
+            <p>Become part of an exclusive community of art lovers and collectors</p>
+            <a href="signup.html" class="cta-button">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-wrapper">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="feedback.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Sign In</a></li>
+                        <li><a href="signup.html">Create Account</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">F</a>
+                        <a href="#" class="social-link">T</a>
+                        <a href="#" class="social-link">I</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Classic Canvas. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when link is clicked
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Smooth scroll for gallery items
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
