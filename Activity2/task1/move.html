@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Box</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Outer div */
+        .container {
+            width: 400px;
+            height: 300px;
+            border: 3px solid #333;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Inner div */
+        .moving-box {
+            width: 50px;
+            height: 50px;
+            background-color: #ff6b6b;
+            position: absolute;
+            top: 125px;
+            left: 175px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="startMoving()">Start</button>
+    
+    <div class="container">
+        <div class="moving-box"></div>
+    </div>
+
+    <script>
+        let isMoving = false;
+
+        function startMoving() {
+            if (isMoving) return;
+            isMoving = true;
+
+            const box = document.querySelector('.moving-box');
+            const container = document.querySelector('.container');
+
+            setInterval(() => {
+                // Random direction: 0=up, 1=down, 2=left, 3=right
+                const direction = Math.floor(Math.random() * 4);
+                const step = 10;
+
+                let top = box.offsetTop;
+                let left = box.offsetLeft;
+
+                if (direction === 0 && top > 0) {
+                    // Move up
+                    box.style.top = (top - step) + 'px';
+                } else if (direction === 1 && top < container.offsetHeight - box.offsetHeight) {
+                    // Move down
+                    box.style.top = (top + step) + 'px';
+                } else if (direction === 2 && left > 0) {
+                    // Move left
+                    box.style.left = (left - step) + 'px';
+                } else if (direction === 3 && left < container.offsetWidth - box.offsetWidth) {
+                    // Move right
+                    box.style.left = (left + step) + 'px';
+                }
+            }, 200);
+        }
+    </script>
+</body>
+</html>
