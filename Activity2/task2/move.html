@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Motion Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-start:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-stop {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-stop:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .container-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(to bottom, #f5f5f5, #e8e8e8);
+            border: 3px solid #667eea;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .moving-circle {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+            transition: all 0.1s linear;
+        }
+
+        .info {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .speed-control label {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .speed-control input {
+            width: 150px;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .speed-control input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .speed-control input::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .speed-value {
+            color: #667eea;
+            font-weight: bold;
+            min-width: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Circle Motion</h1>
+
+        <div class="controls">
+            <button class="btn-start" id="startBtn" onclick="startAnimation()">Start</button>
+            <button class="btn-stop" id="stopBtn" onclick="stopAnimation()" disabled>Stop</button>
+        </div>
+
+        <div class="container-frame">
+            <div class="moving-circle" id="movingCircle"></div>
+        </div>
+
+        <div class="speed-control">
+            <label for="speedSlider">Speed:</label>
+            <input 
+                type="range" 
+                id="speedSlider" 
+                min="0.5" 
+                max="3" 
+                step="0.5" 
+                value="1"
+                onchange="updateSpeed(this.value)"
+            >
+            <span class="speed-value" id="speedValue">1x</span>
+        </div>
+
+        <div class="info">
+            <p>Click "Start" to make the circle move in a smooth circular path.</p>
+            <p>Use the slider to adjust the animation speed.</p>
+        </div>
+    </div>
+
+    <script>
+        let animationId = null;
+        let isAnimating = false;
+        let angle = 0;
+        let speed = 1;
+        const animationSpeed = 60; // milliseconds per frame
+
+        function startAnimation() {
+            if (isAnimating) return;
+
+            isAnimating = true;
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+
+            const circle = document.getElementById('movingCircle');
+            const container = document.getElementById('containerFrame');
+            const frame = circle.parentElement;
+
+            // Get container dimensions
+            const radius = Math.min(frame.offsetWidth, frame.offsetHeight) / 2.5;
+            const centerX = frame.offsetWidth / 2;
+            const centerY = frame.offsetHeight / 2;
+            const circleSize = circle.offsetWidth;
+
+            function animate() {
+                // Calculate position using circular motion formula
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+
+                // Center the circle on the calculated position
+                circle.style.left = (x - circleSize / 2) + 'px';
+                circle.style.top = (y - circleSize / 2) + 'px';
+
+                // Increment angle for smooth circular motion
+                angle += (2 * Math.PI / 360) * speed;
+
+                // Loop the animation
+                animationId = setTimeout(animate, animationSpeed);
+            }
+
+            animate();
+        }
+
+        function stopAnimation() {
+            if (!isAnimating) return;
+
+            isAnimating = false;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+
+            if (animationId) {
+                clearTimeout(animationId);
+                animationId = null;
+            }
+        }
+
+        function updateSpeed(value) {
+            speed = parseFloat(value);
+            document.getElementById('speedValue').textContent = value + 'x';
+        }
+
+        // Reset on page load
+        window.addEventListener('load', () => {
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+        });
+    </script>
+</body>
+</html>
