@@ -26,7 +26,6 @@
       overflow: hidden;
     }
 
-    /* Header UI */
     #header {
       position: absolute;
       top: 0;
@@ -77,7 +76,6 @@
       50% { transform: scale(1.1); }
     }
 
-    /* Game Area */
     #gameArea {
       position: relative;
       width: 100%;
@@ -86,7 +84,6 @@
       background: linear-gradient(to bottom, #87ceeb 0%, #e0f6ff 100%);
     }
 
-    /* Bow */
     #bow {
       position: absolute;
       left: 40px;
@@ -102,7 +99,6 @@
       transform: translateY(-50%) scale(1.1);
     }
 
-    /* Arrow */
     #arrow {
       position: absolute;
       left: 80px;
@@ -128,7 +124,6 @@
       border-bottom: 5px solid transparent;
     }
 
-    /* Target */
     #targets {
       position: relative;
       width: 100%;
@@ -176,7 +171,7 @@
     .target.hit {
       animation: hitAnimation 0.3s ease;
     }
-
+    
     /* Game Over Overlay */
     #gameOverOverlay {
       position: absolute;
@@ -238,7 +233,6 @@
       transform: scale(0.95);
     }
 
-    /* Difficulty Indicator */
     #difficultyIndicator {
       position: absolute;
       bottom: 20px;
@@ -260,6 +254,12 @@
 
     #target.hit {
       animation: hitAnimation 0.3s ease;
+    }
+
+    /* Make the speed value text dark blue */
+    #speedLevel {
+      color: darkblue;
+      font-weight: bold;
     }
 
 
@@ -302,7 +302,7 @@
 </div>
 
 <script>
-  // ===== DOM Elements =====
+  // DOM Elements
   const gameArea = document.getElementById('gameArea');
   const bow = document.getElementById('bow');
   const arrow = document.getElementById('arrow');
@@ -317,7 +317,7 @@
   const finalLevelDisplay = document.getElementById('finalLevel');
   const restartBtn = document.getElementById('restartBtn');
 
-  // ===== Game State =====
+  // Game State
   const gameState = {
     score: 0,
     arrowsLeft: 20,
@@ -333,7 +333,7 @@
     hitsNeededToLevelUp: 5
   };
 
-  // ===== Get Arrows for Level =====
+  // Get Arrows for Level
   function getArrowsForLevel(level) {
     const arrowsByLevel = {
       1: 20,
@@ -346,7 +346,7 @@
     return arrowsByLevel[level] || 5; // Default to 5 if level exceeds 6
   }
 
-  // ===== Initialize Game =====
+  // Initialize Game
   function initializeGame() {
     gameState.score = 0;
     gameState.arrowsLeft = getArrowsForLevel(gameState.level);
@@ -371,7 +371,7 @@
     document.addEventListener('click', handleShoot);
   }
 
-  // ===== Create Target =====
+  // Create Target
   function createTarget() {
     const targetEl = document.createElement('div');
     targetEl.className = 'target';
@@ -398,7 +398,7 @@
     return targetObj;
   }
 
-  // ===== Timer Function =====
+  // Timer Function
   function startTimer() {
     gameState.timerInterval = setInterval(() => {
       gameState.timeLeft--;
@@ -414,7 +414,7 @@
     }, 1000);
   }
 
-  // ===== Move Target Function =====
+  // Move Target Function
   function startTargetMovement() {
     const movementInterval = setInterval(() => {
       if (gameState.gameOver) {
@@ -442,7 +442,7 @@
     }, 50);
   }
 
-  // ===== Shoot Arrow Function =====
+  // Shoot Arrow Function
   function handleShoot(event) {
     if (gameState.gameOver || gameState.arrowMoving) return;
 
@@ -494,7 +494,7 @@
     }, 20);
   }
 
-  // ===== Collision Detection =====
+  // Collision Detection
   function checkCollision(arrowInterval) {
     const arrowRect = arrow.getBoundingClientRect();
 
@@ -512,7 +512,7 @@
     });
   }
 
-  // ===== Handle Target Hit =====
+  // Handle Target Hit
   function handleHit(targetObj, arrowInterval, index) {
     gameState.score++;
     gameState.hitsThisLevel++;
@@ -528,19 +528,19 @@
     }
   }
 
-  // ===== Update Score =====
+  // Update Score
   function updateScore() {
     scoreDisplay.textContent = gameState.score;
   }
 
-  // ===== Level Up =====
+  // Level Up
   function levelUp() {
     gameState.level++;
     gameState.arrowsLeft += 5;
     initializeGame();
   }
 
-  // ===== Play Hit Animation =====
+  // Play Hit Animation
   function playHitAnimation(targetEl) {
     targetEl.classList.add('hit');
     setTimeout(() => {
@@ -548,7 +548,7 @@
     }, 300);
   }
 
-  // ===== Update Display =====
+  // Update Display
   function updateDisplay() {
     scoreDisplay.textContent = gameState.score;
     hitsDisplay.textContent = gameState.hitsThisLevel;
@@ -563,13 +563,13 @@
     }
   }
 
-  // ===== Reset Arrow =====
+  // Reset Arrow
   function resetArrow() {
     gameState.arrowMoving = false;
     arrow.style.display = 'none';
   }
 
-  // ===== End Game =====
+  // End Game
   function endGame() {
     gameState.gameOver = true;
     document.removeEventListener('click', handleShoot);
@@ -579,7 +579,7 @@
     gameOverOverlay.style.display = 'flex';
   }
 
-  // ===== Restart Game =====
+  // Restart Game
   function restartGame() {
     gameState.level = 1;
     gameState.score = 0;
@@ -587,10 +587,10 @@
     initializeGame();
   }
 
-  // ===== Event Listeners =====
+  // Event Listeners
   restartBtn.addEventListener('click', restartGame);
 
-  // ===== Start Game =====
+  // Start Game
   initializeGame();
 </script>
 
