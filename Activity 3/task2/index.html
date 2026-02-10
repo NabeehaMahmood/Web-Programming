@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Task 2 — Todos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <h1>To-Do List</h1>
+    <div class="input-row">
+      <label for="new-item" class="visually-hidden">New item</label>
+      <input type="text" id="new-item" placeholder="Add new item" aria-label="New todo item">
+      <button id="add-btn" aria-label="Add item">Add</button>
+    </div>
+
+    <div class="toolbar">
+      <div class="counts"><span id="remaining">0</span> items left</div>
+      <div>
+        <button id="load">Load Todos</button>
+        <label for="limit">Show:</label>
+        <select id="limit">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="50">50</option>
+        </select>
+        <button id="clear-completed">Clear Completed</button>
+      </div>
+    </div>
+
+    <ul id="todo-list" aria-live="polite"></ul>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
