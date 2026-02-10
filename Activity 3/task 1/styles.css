@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #f4f4f4;
+    margin: 5px 0;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.app {
+    margin-top: 20px;
+}
+
+.input-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+#new-item {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.filters { display: flex; gap: 6px; }
+
+.counts { font-size: 14px; color: #333; }
+
+li.completed .label { text-decoration: line-through; color: #777; }
+
+.actions { display: flex; gap: 6px; }
+.edit-btn { background: #007bff; color: white; border: none; padding: 5px 8px; cursor: pointer; }
+
+.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+
+@media (max-width:480px) {
+    .toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
+    .input-row { flex-direction: column; }
+    button { width: 100%; }
+}
