@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏹 Archery Game </title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    #gameContainer {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      z-index: 100;
+      font-weight: bold;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 12px 25px;
+      border-radius: 15px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      font-size: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    #timer {
+      font-size: 32px;
+      color: #ffeb3b;
+    }
+
+    #timer.warning {
+      color: #ff5252;
+      animation: pulse 0.5s infinite;
+    }
+
+    #arrows {
+      font-size: 28px;
+      color: #4fc3f7;
+      font-weight: bold;
+    }
+
+    #arrows.low {
+      color: #ff5252;
+      animation: pulse 0.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    #gameArea {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #87ceeb 0%, #e0f6ff 100%);
+    }
+
+    #bow {
+      position: absolute;
+      left: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 80px;
+      cursor: crosshair;
+      transition: transform 0.1s ease;
+      user-select: none;
+    }
+
+    #bow:hover {
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    #arrow {
+      position: absolute;
+      left: 80px;
+      top: 50%;
+      width: 60px;
+      height: 6px;
+      background: linear-gradient(to right, #8b4513, #daa520);
+      display: none;
+      border-radius: 3px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transform: translateY(-50%);
+    }
+
+    #arrow::after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      top: -5px;
+      width: 0;
+      height: 0;
+      border-left: 12px solid #daa520;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+
+    #targets {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .target {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000);
+      box-shadow: 
+        inset 0 0 15px rgba(0, 0, 0, 0.3),
+        0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.1s linear;
+      cursor: not-allowed;
+    }
+
+    .target::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #ffeb3b;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .target::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #000;
+    }
+
+    .target.hit {
+      animation: hitAnimation 0.3s ease;
+    }
+    
+    /* Game Over Overlay */
+    #gameOverOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #gameOverMessage {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    #gameOverMessage h1 {
+      font-size: 64px;
+      margin-bottom: 20px;
+      color: #ffeb3b;
+      text-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
+    }
+
+    #gameOverMessage p {
+      font-size: 28px;
+      margin: 10px 0;
+    }
+
+    #restartBtn {
+      padding: 15px 40px;
+      font-size: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      font-weight: bold;
+    }
+
+    #restartBtn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    #restartBtn:active {
+      transform: scale(0.95);
+    }
+
+    #difficultyIndicator {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 12px 20px;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Hit animation */
+    @keyframes hitAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    #target.hit {
+      animation: hitAnimation 0.3s ease;
+    }
+
+    /* Make the speed value text dark blue */
+    #speedLevel {
+      color: darkblue;
+      font-weight: bold;
+    }
+    #targetLabel {
+      color: darkblue;
+      font-weight: bold;
+    }
+
+
+  </style>
+</head>
+
+<body>
+
+<div id="gameContainer">
+  <!-- Header -->
+  <div id="header">
+    <div class="stat-box">Score: <span id="score">0</span></div>
+    <div class="stat-box">Arrows: <span id="arrows">7</span></div>
+    <div class="stat-box">Level: <span id="level">1</span></div>
+    <div class="stat-box">Hits: <span id="hits">0</span>/5</div>
+  </div>
+
+  <!-- Game Area -->
+  <div id="gameArea">
+    <div id="bow">🏹</div>
+    <div id="arrow"></div>
+    <div id="targets"></div>
+    
+
+    
+    <div id="difficultyIndicator">
+      <span id="targetLabel">Target Speed:</span> <span id="speedLevel">1x</span>
+    </div>
+  </div>
+
+  <!-- Game Over Overlay -->
+  <div id="gameOverOverlay">
+    <div id="gameOverMessage">
+      <h1>🎮 GAME OVER!</h1>
+      <p>Final Score: <span id="finalScore">0</span></p>
+      <p>Level Reached: <span id="finalLevel">1</span></p>
+    </div>
+    <button id="restartBtn">Play Again</button>
+  </div>
+</div>
+
+<script>
+  // DOM Elements
+  const gameArea = document.getElementById('gameArea');
+  const bow = document.getElementById('bow');
+  const arrow = document.getElementById('arrow');
+  const targetsContainer = document.getElementById('targets');
+  const scoreDisplay = document.getElementById('score');
+  const arrowsDisplay = document.getElementById('arrows');
+  const levelDisplay = document.getElementById('level');
+  const hitsDisplay = document.getElementById('hits');
+  const speedDisplay = document.getElementById('speedLevel');
+  const gameOverOverlay = document.getElementById('gameOverOverlay');
+  const finalScoreDisplay = document.getElementById('finalScore');
+  const finalLevelDisplay = document.getElementById('finalLevel');
+  const restartBtn = document.getElementById('restartBtn');
+
+  // Game State
+  const gameState = {
+    score: 0,
+    arrowsLeft: 20,
+    gameOver: false,
+    arrowMoving: false,
+    level: 1,
+    targets: [],
+    baseSpeed: 5,
+    targetSpeed: 5,
+    arrowSpeed: 15,
+    targetSize: 60,
+    hitsThisLevel: 0,
+    hitsNeededToLevelUp: 5
+  };
+
+  // Get Arrows for Level
+  function getArrowsForLevel(level) {
+    const arrowsByLevel = {
+      1: 20,
+      2: 17,
+      3: 14,
+      4: 12,
+      5: 10,
+      6: 9
+    };
+    return arrowsByLevel[level] || 5; // Default to 5 if level exceeds 6
+  }
+
+  // Initialize Game
+  function initializeGame() {
+    gameState.score = 0;
+    gameState.arrowsLeft = getArrowsForLevel(gameState.level);
+    gameState.gameOver = false;
+    gameState.arrowMoving = false;
+    gameState.targetSpeed = 5 + gameState.level;
+    gameState.arrowSpeed = 15 + gameState.level;
+    gameState.targetSize = Math.max(40, 60 - gameState.level * 2);
+    gameState.hitsThisLevel = 0;
+
+    // Clear old targets
+    targetsContainer.innerHTML = '';
+    gameState.targets = [];
+
+    // Create only ONE target for current level
+    createTarget();
+
+    updateDisplay();
+    gameOverOverlay.style.display = 'none';
+    startTargetMovement();
+
+    document.addEventListener('click', handleShoot);
+  }
+
+  // Create Target
+  function createTarget() {
+    const targetEl = document.createElement('div');
+    targetEl.className = 'target';
+    targetEl.style.width = gameState.targetSize + 'px';
+    targetEl.style.height = gameState.targetSize + 'px';
+    
+    const randomRight = Math.random() * (gameArea.offsetWidth * 0.4) + 100;
+    const randomTop = Math.random() * (gameArea.offsetHeight - 100) + 60;
+    
+    targetEl.style.right = randomRight + 'px';
+    targetEl.style.top = randomTop + 'px';
+
+    targetsContainer.appendChild(targetEl);
+
+    const targetObj = {
+      el: targetEl,
+      top: randomTop,
+      right: randomRight,
+      direction: Math.random() > 0.5 ? 1 : -1,
+      id: gameState.targets.length
+    };
+
+    gameState.targets.push(targetObj);
+    return targetObj;
+  }
+
+  // Timer Function
+  function startTimer() {
+    gameState.timerInterval = setInterval(() => {
+      gameState.timeLeft--;
+      timerDisplay.textContent = gameState.timeLeft;
+
+      if (gameState.timeLeft <= 10) {
+        timerDisplay.parentElement.classList.add('warning');
+      }
+
+      if (gameState.timeLeft <= 0) {
+        endGame();
+      }
+    }, 1000);
+  }
+
+  // Move Target Function
+  function startTargetMovement() {
+    const movementInterval = setInterval(() => {
+      if (gameState.gameOver) {
+        clearInterval(movementInterval);
+        return;
+      }
+
+      gameState.targets.forEach(targetObj => {
+        let top = targetObj.top;
+        const maxTop = gameArea.offsetHeight - gameState.targetSize - 80;
+        const minTop = 60;
+
+        if (top <= minTop) {
+          targetObj.direction = 1;
+        } else if (top >= maxTop) {
+          targetObj.direction = -1;
+        }
+
+        let newTop = top + gameState.targetSpeed * targetObj.direction;
+        newTop = Math.max(minTop, Math.min(newTop, maxTop));
+
+        targetObj.top = newTop;
+        targetObj.el.style.top = newTop + 'px';
+      });
+    }, 50);
+  }
+
+  // Shoot Arrow Function
+  function handleShoot(event) {
+    if (gameState.gameOver || gameState.arrowMoving) return;
+
+    if (gameState.arrowsLeft <= 0) {
+      endGame();
+      return;
+    }
+
+    gameState.arrowMoving = true;
+    gameState.arrowsLeft--;
+    updateDisplay();
+    
+    // Get bow center position
+    const bowCenterY = bow.offsetTop + bow.offsetHeight / 2;
+    
+    // Get click position
+    const clickY = event.clientY;
+    
+    // Calculate trajectory angle
+    const angle = Math.atan2(clickY - bowCenterY, gameArea.offsetWidth - 80);
+    
+    arrow.style.display = 'block';
+    arrow.style.left = '80px';
+    arrow.style.top = bowCenterY + 'px';
+    
+    // Rotate arrow to face direction
+    const angleInDegrees = (angle * 180) / Math.PI;
+    arrow.style.transform = `translateY(-50%) rotate(${angleInDegrees}deg)`;
+
+    const arrowInterval = setInterval(() => {
+      let arrowLeft = parseFloat(arrow.style.left);
+      
+      // Calculate new position along trajectory
+      const newLeft = arrowLeft + gameState.arrowSpeed;
+      const newTop = bowCenterY + Math.tan(angle) * (newLeft - 80);
+      
+      arrow.style.left = newLeft + 'px';
+      arrow.style.top = newTop + 'px';
+
+      checkCollision(arrowInterval);
+
+      if (arrowLeft > gameArea.offsetWidth) {
+        resetArrow();
+        clearInterval(arrowInterval);
+        if (gameState.arrowsLeft <= 0) {
+          endGame();
+        }
+      }
+    }, 20);
+  }
+
+  // Collision Detection
+  function checkCollision(arrowInterval) {
+    const arrowRect = arrow.getBoundingClientRect();
+
+    gameState.targets.forEach((targetObj, index) => {
+      const targetRect = targetObj.el.getBoundingClientRect();
+
+      if (
+        arrowRect.left + arrowRect.width >= targetRect.left &&
+        arrowRect.right >= targetRect.left &&
+        arrowRect.top >= targetRect.top &&
+        arrowRect.top <= targetRect.bottom
+      ) {
+        handleHit(targetObj, arrowInterval, index);
+      }
+    });
+  }
+
+  // Handle Target Hit
+  function handleHit(targetObj, arrowInterval, index) {
+    gameState.score++;
+    gameState.hitsThisLevel++;
+    
+    updateScore();
+    playHitAnimation(targetObj.el);
+    resetArrow();
+    clearInterval(arrowInterval);
+
+    // Check if reached 5 hits to level up
+    if (gameState.hitsThisLevel >= gameState.hitsNeededToLevelUp) {
+      levelUp();
+    }
+  }
+
+  // Update Score
+  function updateScore() {
+    scoreDisplay.textContent = gameState.score;
+  }
+
+  // Level Up
+  function levelUp() {
+    gameState.level++;
+    gameState.arrowsLeft += 5;
+    initializeGame();
+  }
+
+  // Play Hit Animation
+  function playHitAnimation(targetEl) {
+    targetEl.classList.add('hit');
+    setTimeout(() => {
+      targetEl.classList.remove('hit');
+    }, 300);
+  }
+
+  // Update Display
+  function updateDisplay() {
+    scoreDisplay.textContent = gameState.score;
+    hitsDisplay.textContent = gameState.hitsThisLevel;
+    arrowsDisplay.textContent = gameState.arrowsLeft;
+    levelDisplay.textContent = gameState.level;
+    speedDisplay.textContent = (gameState.targetSpeed / gameState.baseSpeed).toFixed(1) + 'x';
+
+    if (gameState.arrowsLeft <= 5) {
+      arrowsDisplay.parentElement.classList.add('low');
+    } else {
+      arrowsDisplay.parentElement.classList.remove('low');
+    }
+  }
+
+  // Reset Arrow
+  function resetArrow() {
+    gameState.arrowMoving = false;
+    arrow.style.display = 'none';
+  }
+
+  // End Game
+  function endGame() {
+    gameState.gameOver = true;
+    document.removeEventListener('click', handleShoot);
+
+    finalScoreDisplay.textContent = gameState.score;
+    finalLevelDisplay.textContent = gameState.level;
+    gameOverOverlay.style.display = 'flex';
+  }
+
+  // Restart Game
+  function restartGame() {
+    gameState.level = 1;
+    gameState.score = 0;
+    gameState.arrowsLeft = 20;
+    initializeGame();
+  }
+
+  // Event Listeners
+  restartBtn.addEventListener('click', restartGame);
+
+  // Start Game
+  initializeGame();
+</script>
+
+</body>
+</html>
