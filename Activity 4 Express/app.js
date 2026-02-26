@@ -15,3 +15,7 @@ app.use(express.json());
 
 const sessionRoutes = require('./routes/sessionRoute');
 app.use('/session', sessionRoutes);
+
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+});
